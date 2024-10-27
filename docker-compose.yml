@@ -1,0 +1,42 @@
+
+
+services:
+  mysqldb:
+    image: 'mysql:latest'
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: userinfo
+    container_name: "mysqldb"
+
+    networks:
+      - my-network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 20s
+      retries: 5
+
+  mypythonapp:
+    build:
+      context: .
+      dockerfile: Dockerfile
+
+    container_name: "mypyapp"
+    
+    networks:
+      - my-network
+    
+    volumes:
+      - ./servers.txt:/usr/src/app/servers.txt
+    
+    stdin_open: true
+    tty: true
+    
+    depends_on:
+      mysqldb:
+        condition: service_healthy
+    
+
+
+networks:
+  my-network:
+    driver: bridge

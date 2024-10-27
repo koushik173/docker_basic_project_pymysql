@@ -1,0 +1,7 @@
+# numpy==1.24.0
+# pandas==1.5.0
+# mysql-connector-python==9.1.0
+pymysql==1.1.1
+cryptography==43.0.3
+
+# sudo docker run -d --network my_network --name mysqldb -e MYSQL_ROOT_PASSWORD='root' -e MYSQL_DATABASE='userinfo' mysql
